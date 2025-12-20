@@ -23,6 +23,8 @@ To create a certificate authority and start signing:
     cd caman
     cp ca/caconfig.cnf.default ca/caconfig.cnf && vi ca/caconfig.cnf
     cp ca/host.cnf.default ca/host.cnf && vi ca/host.cnf
+    rm -f .gitignore && git commit .gitignore -m "enable versioning of the activated ca"
+    git remote origin set-url https://.....
     ./caman init
     ./caman new host.example.com
     ./caman sign host.example.com
@@ -117,6 +119,18 @@ In ``ca/host.cnf``:
   * Do not change ``commonName`` - this is a placeholder which will be set by
     caman
 * The lifespan of your host certs is ``default_days`` - 10 years by default
+
+Configure tracking the live CA using git
+
+    rm -f .gitignore && git commit .gitignore -m "enable versioning of the activated ca"
+    git remote origin set-url https://.....
+    git push
+
+Tracking Updates in git
+
+    git add .
+    git commit -a -m "renew cert for xyz"
+    git push
 
 
 #### Distribution
