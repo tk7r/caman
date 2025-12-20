@@ -24,7 +24,7 @@ To create a certificate authority and start signing:
     cp ca/caconfig.cnf.default ca/caconfig.cnf && vi ca/caconfig.cnf
     cp ca/host.cnf.default ca/host.cnf && vi ca/host.cnf
     rm -f .gitignore && git commit .gitignore -m "enable versioning of the activated ca"
-    git remote origin set-url https://.....
+    git remote set-url origin https://.....
     ./caman init
     ./caman new host.example.com
     ./caman sign host.example.com
