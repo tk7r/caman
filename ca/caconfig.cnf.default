@@ -30,8 +30,8 @@ crlnumber               = $dir/crlnumber
 
 # Default expiration and encryption policies for certificates
 # 30 days for CRL, 100 years for certs
-default_crl_days        = 30
-default_days            = 36500
+default_crl_days        = 365
+default_days            = 3650
 default_md              = sha256
 preserve                = no
 policy                  = policy_match
@@ -82,7 +82,7 @@ emailAddress            = email@example.com
 basicConstraints        = CA:FALSE
 nsComment               = "OpenSSL Generated Certificate"
 subjectKeyIdentifier    = hash
-authorityKeyIdentifier  = keyid,issuer
+authorityKeyIdentifier  = keyid, issuer
 # >> Change the following URL
 crlDistributionPoints   = URI:http://example.com/ca.crl.pem
 # << End changes
@@ -91,8 +91,8 @@ crlDistributionPoints   = URI:http://example.com/ca.crl.pem
 # Extensions for a CA
 [ v3_ca ]
 subjectKeyIdentifier    = hash
-authorityKeyIdentifier  = keyid:always,issuer
-basicConstraints        = CA:true
+authorityKeyIdentifier  = keyid:always, issuer
+basicConstraints        = critical, CA:true
 # >> Change the following URL
 crlDistributionPoints   = URI:http://example.com/ca.crl.pem
 # << End changes
