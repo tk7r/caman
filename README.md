@@ -36,8 +36,8 @@ Read on to see more details, how you can do this using an intermediate certifica
 
 ### Creating a Certificate Authority
 
-1. Make sure ``openssl`` is installed on your system before using caman:
-   * Debian and Ubuntu: ``sudo apt-get install openssl``
+1. Make sure ``openssl`` and ``perl`` is installed on your system before using caman:
+   * Debian and Ubuntu: ``sudo apt-get install openssl perl``
 
 2. Clone this repository:
 
