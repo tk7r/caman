@@ -8,7 +8,7 @@ default_ca              = local_ca
 [ local_ca ]
 # Default expiration and encryption policies for certificates
 # 10 years for certs
-default_days            = 3650
+default_days            = 398
 
 [ req ]
 prompt                  = no
@@ -29,4 +29,6 @@ commonName              = <<HOSTNAME>>
 [ v3_req ]
 basicConstraints        = CA:FALSE
 keyUsage                = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage        = serverAuth
+nsCertType              = server
 <<ALT_HOSTNAMES>>
