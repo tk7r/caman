@@ -1,0 +1,108 @@
+#
+# Certificate authority configuration file for OpenSSL
+#
+
+dir                     = ./ca
+
+
+####################################################################
+[ ca ]
+default_ca    = CA_default        # The default ca section
+
+####################################################################
+[ CA_default ]
+
+database                = $dir/index.txt
+new_certs_dir           = $dir/newcerts
+certificate             = $dir/ca.crt.pem
+serial                  = $dir/serial
+crl                     = $dir/ca.crl.pem
+private_key             = $dir/ca.key.pem
+RANDFILE                = $dir/private/.rand
+
+x509_extensions         = usr_cert
+name_opt                = ca_default
+cert_opt                = ca_default
+
+# V2 CRLs
+crl_extensions          = crl_ext
+crlnumber               = $dir/crlnumber
+
+# Default expiration and encryption policies for certificates
+# 30 days for CRL, 100 years for certs
+default_crl_days        = 365
+default_days            = 3650
+default_md              = sha256
+preserve                = no
+policy                  = policy_match
+
+# Needed to copy SANs from CSR to cert
+copy_extensions         = copy
+
+
+####################################################################
+# Default policy to use when generating server certificates
+# The following fields must be defined in the server certificate
+[ policy_match ]
+countryName             = supplied
+stateOrProvinceName     = supplied
+organizationName        = supplied
+organizationalUnitName  = supplied
+commonName              = supplied
+emailAddress            = supplied
+
+####################################################################
+# The default root certificate generation policy
+[ req ]
+default_bits            = 4096
+default_keyfile         = $dir/ca.key.pem
+default_md              = sha256
+prompt                  = no
+distinguished_name      = req_distinguished_name
+x509_extensions         = v3_ca
+string_mask             = utf8only
+req_extensions          = domain_ca
+
+####################################################################
+# Root Certificate Authority distinguished name
+# Change these fields to match your local environment
+[ req_distinguished_name ]
+# >> Change the following 6 variables:
+#   countryName must be 2 character character code
+countryName             = AT
+stateOrProvinceName     = Austria
+organizationName        = Lausa Organisation
+organizationalUnitName  = Lausa Home Certificate Authority
+commonName              = Lausa Home Certificate Authority (2026/kub1)
+emailAddress            = admin@lausa.at
+# << End changes
+
+[ domain_ca ]
+basicConstraints        = critical, CA:true, pathlen:1
+nameConstraints         = critical, permitted;DNS:.home.intra
+
+####################################################################
+# Extensions to use when generating server certificates
+[ usr_cert ]
+basicConstraints        = CA:FALSE
+nsComment               = "OpenSSL Generated Certificate"
+subjectKeyIdentifier    = hash
+authorityKeyIdentifier  = keyid, issuer
+# >> Change the following URL
+crlDistributionPoints   = URI:https://www.lausa.at/certs/ca_lausa_home_2026_kub1.crl.pem
+# << End changes
+
+####################################################################
+# Extensions for a CA
+[ v3_ca ]
+subjectKeyIdentifier    = hash
+authorityKeyIdentifier  = keyid:always, issuer
+basicConstraints        = critical, CA:true
+# >> Change the following URL
+crlDistributionPoints   = URI:https://www.lausa.at/certs/ca_lausa_home_2026_kub1.crl.pem
+# << End changes
+
+####################################################################
+# CRL extensions.
+[ crl_ext ]
+authorityKeyIdentifier  = keyid:always

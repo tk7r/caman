@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+NAME=ca_lausa_home_2026_kub1
+
+scp ca/ca.crt.pem root@web1.lausa.at:/var/www/lausa.at/certs/${NAME}.crt.pem
+scp ca/ca.crl.pem root@web1.lausa.at:/var/www/lausa.at/certs/${NAME}.crl.pem
+
+exit 0

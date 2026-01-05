@@ -1,0 +1,34 @@
+#
+# Host configuration
+#
+
+[ ca ]
+default_ca              = local_ca
+
+[ local_ca ]
+# Default expiration and encryption policies for certificates
+# 10 years for certs
+default_days            = 398
+
+[ req ]
+prompt                  = no
+distinguished_name      = host_distinguished_name
+req_extensions          = v3_req
+
+[ host_distinguished_name ]
+# >> Change the following 4 variables:
+#   countryName must be 2 character character code
+countryName             = AT
+stateOrProvinceName     = Austria
+organizationName        = Lausa Organisation
+organizationalUnitName  = Lausa Home KUB1 Devices (2026/kub1)
+emailAddress            = admin@lausa.at
+# << End changes
+commonName              = <<HOSTNAME>>
+
+[ v3_req ]
+basicConstraints        = CA:FALSE
+keyUsage                = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage        = serverAuth
+nsCertType              = server
+<<ALT_HOSTNAMES>>

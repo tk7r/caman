@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+BASEDIR=$(dirname $(readlink -f $0))
+
+function check_cert() {
+  server="$1" 
+  gracedays=${2:-14}
+
+  pushd $server >/dev/null 2>&1
+
+  LATEST_ISSUE=$(find . -mindepth 1 -maxdepth 1 -type d | sort | tail -n 1)
+  data=$(openssl x509 -noout -enddate -in ${LATEST_ISSUE}/${server}.crt.pem | sed -e 's#notAfter=##')
+
+  ssldate=`date -d "${data}" '+%s'`
+  nowdate=`date '+%s'`
+  diff="$((${ssldate}-${nowdate}))"
+
+  if [ "${diff}" -lt "$((${gracedays}*24*3600))" ] ; then
+    if [ "${diff}" -lt 0 ] ; then
+	  printf "${server}:expired::The certificate for ${server} has already expired.\n"
+    else
+	  printf "${server}:remaining:$((${diff}/3600/24)):The certificate for ${server} will expire in $((${diff}/3600/24)) days.\n"
+    fi
+  #else
+  #	printf "${server}:ok::The certificate for ${server} is OK.\n"
+  fi
+
+  popd >/dev/null 2>&1
+}
+
+pushd ${BASEDIR}/store >/dev/null 2>&1
+for i in * ; do
+  if [ -d "${i}" ] && [ ! -f "${i}/.disabled" ] ; then
+	check_cert "${i}"
+  fi
+done
+popd >/dev/null 2>&1
+
+exit 0
